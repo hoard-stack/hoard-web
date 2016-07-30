@@ -1,5 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    .container
+        h1
+            |  Hoard
+        |         
+        a.btn.btn-default(href='/login')
+            span.fa.fa-user
+            |  Login
+        |         
+        a.btn.btn-default(href='/register')
+            span.fa.fa-user
+            |  Register
