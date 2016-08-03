@@ -54,6 +54,10 @@ module.exports = function (app, passport) {
         });
     });
 
+    app.get('/authinfo', isLoggedIn, function (req, res) {
+        res.send({ email: req.user.local.email });
+    });
+
     // =====================================
     // LOGOUT ==============================
     // =====================================
