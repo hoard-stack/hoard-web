@@ -1,3 +1,5 @@
+var https = require('https');
+var fs = require('fs');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -12,8 +14,23 @@ var databaseConfig = require('./config/database.js');
 require('./config/passport')(passport);
 
 mongoose.connect(databaseConfig.connectionString);
+require("./models/user");
+require("./models/userLink");
+
+//var httpsPort = 443;
+
+//var options = {
+//    key: fs.readFileSync('./ssl/privatekey.key'),
+//    cert: fs.readFileSync('./ssl/certificate.crt'),
+//    requestCert: false,
+//    rejectUnauthorized: false
+//};
 
 var app = express();
+
+//var server = https.createServer(options, app).listen(httpsPort, function () {
+//    console.log("Express server listening on port " + httpsPort);
+//});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,6 +54,8 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./routes.js')(app, passport);
 app.use(express.static(path.join(__dirname, 'public')));
 app.listen(80);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

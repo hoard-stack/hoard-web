@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+
 module.exports = function (app, passport) {
 
     // =====================================
@@ -54,8 +56,70 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.get('/authinfo', isLoggedIn, function (req, res) {
+    app.get('/me', isLoggedIn, function (req, res) {
         res.send({ email: req.user.local.email });
+    });
+
+    app.get('/me/links', isLoggedIn, function (req, res) {
+        var userLinkModel = mongoose.model('UserLink');
+        userLinkModel.findOne({userId: req.user._id}, function (err, userLink) {
+            if (err) {/*error!!!*/ }
+            if (!userLink) {
+                res.send([]);
+                return;
+            }
+
+            var links = userLink.links.map(function (link) {
+                return { url: link.url };
+            });
+            res.send(links);
+        });
+    });
+
+    app.post('/me/links', isLoggedIn, function (req, res) {
+        var UserLinkModel = mongoose.model('UserLink');
+        var sentLinks = req.body.links;
+        if(!sentLinks || sentLinks.length === 0)
+            return res.send(400, { error: "Empty links collection." });
+
+
+        UserLinkModel.findOne({ userId: req.user._id }, function (err, userLink) {
+            if (err) { }
+            if (!userLink) {
+                userLink = {
+                    links: []
+                };
+            }
+
+            //O(N^2) lol
+            function isValidLink(sentLink) {
+                if (!sentLink.url) {
+                    return false;
+                }
+
+                var linkExists = false;
+                userLink.links.forEach(function (existingLink) {
+                    if (sentLink.url === existingLink.url) {
+                        linkExists = true;
+                        return;
+                    }
+                });
+
+                return !linkExists;
+            }
+
+            sentLinks.forEach(function (sentLink) {
+                if (isValidLink(sentLink)) {
+                    userLink.links.push(sentLink);
+                }
+            });
+
+            UserLinkModel.findOneAndUpdate({ userId: req.user._id }, userLink, { upsert: true }, function (updateErr, userLinks) {
+                if (updateErr) return res.send(500, { error: updateErr });
+                return res.send("Succesfully saved new link.");
+            });
+        });
+
     });
 
     // =====================================
