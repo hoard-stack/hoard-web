@@ -70,7 +70,7 @@ module.exports = function (app, passport) {
             }
 
             var links = userLink.links.map(function (link) {
-                return { url: link.url };
+                return { id: link._id, url: link.url };
             });
             res.send(links);
         });
@@ -120,6 +120,40 @@ module.exports = function (app, passport) {
             });
         });
 
+    });
+
+    app.delete('/me/links/:id', isLoggedIn, function (req, res) {
+        var UserLinkModel = mongoose.model('UserLink');
+        var linkId = req.params.id;
+        if(!linkId)
+            return res.send(400, { error: "Missing link id." });
+
+        UserLinkModel.findOne({ userId: req.user._id }, function (err, userLink) {
+            if (err) { }
+            if (!userLink) {
+                userLink = {
+                    links: []
+                };
+            }
+
+            var linkToRemoveIndex = -1;
+            userLink.links.forEach(function (existingLink, index) {
+                if (linkId === existingLink.url) {
+                    linkToRemoveIndex = index;
+                    return;
+                }
+            });
+
+            if(linkToRemoveIndex < 0)
+                return res.send(400, { error: "Invalid link id." });
+
+            userLink.links.splice(linkToRemoveIndex, 1);
+
+            UserLinkModel.findOneAndUpdate({ userId: req.user._id }, userLink, { upsert: true }, function (updateErr, userLinks) {
+                if (updateErr) return res.send(500, { error: updateErr });
+                return res.send("Succesfully removed link.");
+            });
+        });
     });
 
     // =====================================
