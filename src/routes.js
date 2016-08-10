@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var uuid = require('node-uuid');
 
 module.exports = function (app, passport) {
 
@@ -70,7 +71,7 @@ module.exports = function (app, passport) {
             }
 
             var links = userLink.links.map(function (link) {
-                return { id: link._id, url: link.url };
+                return { id: link.internalId, url: link.url };
             });
             res.send(links);
         });
@@ -81,7 +82,6 @@ module.exports = function (app, passport) {
         var sentLinks = req.body.links;
         if(!sentLinks || sentLinks.length === 0)
             return res.send(400, { error: "Empty links collection." });
-
 
         UserLinkModel.findOne({ userId: req.user._id }, function (err, userLink) {
             if (err) { }
@@ -100,6 +100,7 @@ module.exports = function (app, passport) {
                 var linkExists = false;
                 userLink.links.forEach(function (existingLink) {
                     if (sentLink.url === existingLink.url) {
+                        console.log("Link: " + sentLink.url + " already exists and will not be saved again.");
                         linkExists = true;
                         return;
                     }
@@ -110,13 +111,23 @@ module.exports = function (app, passport) {
 
             sentLinks.forEach(function (sentLink) {
                 if (isValidLink(sentLink)) {
-                    userLink.links.push(sentLink);
+                    if (!sentLink.id || sentLink.id === "") {
+                        sentLink.id = uuid.v4();
+                        console.log("Internal id for link " + sentLink.url + " has not been provided. " +
+                            "Created a new one: " + sentLink.id + ".");
+                    }
+                    var linkData = {
+                        internalId: sentLink.id,
+                        url: sentLink.url
+                    };
+                    userLink.links.push(linkData);
+                    console.log("Adding new link " + linkData.url + " [id: " + linkData.internalId + "].");
                 }
             });
 
             UserLinkModel.findOneAndUpdate({ userId: req.user._id }, userLink, { upsert: true }, function (updateErr, userLinks) {
                 if (updateErr) return res.send(500, { error: updateErr });
-                return res.send("Succesfully saved new link.");
+                return res.send("Succesfully saved links.");
             });
         });
 
