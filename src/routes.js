@@ -149,7 +149,7 @@ module.exports = function (app, passport) {
 
             var linkToRemoveIndex = -1;
             userLink.links.forEach(function (existingLink, index) {
-                if (linkId === existingLink.url) {
+                if (linkId === existingLink.internalId) {
                     linkToRemoveIndex = index;
                     return;
                 }
