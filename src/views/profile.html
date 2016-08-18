@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>Hoard - your own space </title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato|Open+Sans'>
+  <!-- <link rel='stylesheet' href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css'> -->
+
+  <!--Import Google Icon Font-->
+ <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <!--Import materialize.css-->
+ <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+ <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+ <link rel='stylesheet' href='/stylesheets/style.css'>
+ <!--Let browser know website is optimized for mobile-->
+
+</head>
+<body>
+  <header>
+  <nav class="white_transparent" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo"></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/us">About us</a></li>
+        <li><a href="/profile">Profile</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="/us">About us</a></li>
+        <li><a href="/profile">Profile</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+</header>
+<main>
+  <div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+      <div class="container">
+      Hi  <%= user.local.email %>
+  <ul class="collection">
+    <li class="collection-item avatar">
+      <img src="images/yuna.jpg" alt="" class="circle">
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle">folder</i>
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle green">insert_chart</i>
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+    <li class="collection-item avatar">
+      <i class="material-icons circle red">play_arrow</i>
+      <span class="title">Title</span>
+      <p>First Line <br>
+         Second Line
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="parallax"><div class="stars"></div>
+<div class="twinkling"></div></div>
+</div>
+<div class="observatory">
+  <img src="/img/observatory.png" class="obs">
+</div>
+</main>
+<footer class="white_transparent">
+    <div class="footer-copyright  center-align">
+      <div class="container teal-text text-lighten-5">
+      have a nice day!
+      </div>
+    </div>
+  </footer>
+
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script src="js/init.js"></script>
+</div>
+</body>
+</html>
