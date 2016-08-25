@@ -2,17 +2,28 @@
   <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot">
       <div class="container">
-    <h1>Hoard </h1>
-    <h2>Register</h2>
-    <form action="/register" method="post">
-      <input label="Email" type="text" name="email">
-      <input label="Password" type="password" name="password">
-      <button class="btn btn-warning brn-lg" type="submit">Register</button>
-    </form>
-    <hr>
-    <p>Already have an account? <a href="/login">Login</a></p>
-    <p>Or go <a href="/">home</a></p>
-
+        <div class="row">
+         <div class="col s4">
+           <!-- Promo Content 1 goes here -->
+         </div>
+         <div class="col s4 center">
+           <h1 class="header teal-text text-lighten-5">Hoard </h1>
+           <h5 class="header col s12 light">Register</h5>
+           <%if (message.length > 0) { %>
+            <div class="error"><%= message %></div>
+            <% } %>
+           <form action="/register" method="post">
+             <input placeholder="Email" type="text" name="email">
+             <input placeholder="Password" type="password" name="password">
+             <button class="btn btn-warning brn-lg" type="submit">Register</button>
+           </form>
+           <p class="under-form">Already have an account? <a href="/login">Log in</a></p>
+           <p class="under-form">Or go <a href="/">home</a></p>
+         </div>
+         <div class="col s4">
+           <!-- Promo Content 3 goes here -->
+         </div>
+       </div>
   </div>
 </div>
 <div class="parallax"><div class="stars"></div>
