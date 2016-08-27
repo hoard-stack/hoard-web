@@ -1,0 +1,31 @@
+﻿<template>
+  <nav role="navigation" class="ft-nav">
+    <div class="container">
+      <a href="#" data-activates="nav-mobile" class="button-collapse right">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down">
+        <!-- We can use row.isActive and row.isNavigating here for indicators -->
+        <li repeat.for="row of navigation">
+          <a href.bind="row.href">
+            <i class="material-icons left">${row.settings.icon}</i>
+            <span t="common.${row.config.name}"></span>
+          </a>
+        </li>
+        <li if.bind="authService.isLoggedIn">
+          <a href="#" click.delegate="logout()">
+            <span t="common.logout"></span>
+          </a>
+        </li>
+      </ul>
+      <ul class="side-nav" id="nav-mobile">
+        <li repeat.for="row of router.navigation">
+          <a href.bind="row.href">
+            <i class="material-icons left">${row.settings.icon}</i>
+            <span t="common.${row.title}"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</template>

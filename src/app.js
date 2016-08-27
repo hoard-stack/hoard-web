@@ -1,5 +1,10 @@
+import AppConfig from './common/app-config'
+import routes from './routes';
+
 export class App {
-  constructor() {
-    this.message = 'Hello World!';
+  configureRouter(config, router) {
+    this.router = router;
+    config.title = AppConfig.title;
+    config.map(routes);
   }
 }

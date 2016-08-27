@@ -1,3 +1,30 @@
 <template>
-  <h1>${message}</h1>
+  	<header>
+	  <nav class="white_transparent" role="navigation">
+	    <div class="nav-wrapper container">
+	      <a id="logo-container" href="#" class="brand-logo"></a>
+	      <ul class="right hide-on-med-and-down">
+	        <li><a href="/">Home</a></li>
+	        <li><a href="/#us">About us</a></li>
+	        <li><a href="/#profile">Profile</a></li>
+	      </ul>
+	      <ul id="nav-mobile" class="side-nav">
+	        <li><a href="/">Home</a></li>
+	        <li><a href="/#us">About us</a></li>
+	        <li><a href="/#profile">Profile</a></li>
+	      </ul>
+	      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+	    </div>
+	  </nav>
+	</header>
+  <main>
+  <router-view></router-view>
+  </main>
+  <footer class="white_transparent">
+    <div class="footer-copyright  center-align">
+      <div class="container teal-text text-lighten-5">
+      have a nice day!
+      </div>
+    </div>
+  </footer>
 </template>

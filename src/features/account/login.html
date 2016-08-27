@@ -1,0 +1,32 @@
+<template>
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <div class="row">
+       <div class="col s4">
+         <!-- Promo Content 1 goes here -->
+       </div>
+       <div class="col s4 center">
+         <h1 class="header teal-text text-lighten-5">Hoard </h1>
+         <h5 class="header col s12 light">Login</h5>
+         <%if (message.length > 0) { %>
+          <div class="error"><%= message %></div>
+          <% } %>
+         <form action="/login" method="post">
+           <input placeholder="Email" type="text" name="email">
+           <input placeholder="Password" type="password" name="password">
+           <button class="btn btn-warning brn-lg" type="submit">Login</button>
+         </form>
+         <p class="under-form">Need an account? <a href="/#register">Register</a></p>
+         <p class="under-form">Or go <a href="/">home</a></p>
+       </div>
+       <div class="col s4">
+         <!-- Promo Content 3 goes here -->
+       </div>
+     </div>
+</div>
+</div>
+  <div class="parallax"><div class="stars"></div>
+  <div class="twinkling"></div></div>
+</div>
+</template>
