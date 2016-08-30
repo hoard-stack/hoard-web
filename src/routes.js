@@ -8,6 +8,12 @@ export default [
     title:    'Get started'
   },
   {
+    route:    'about',
+    moduleId: `${modulePrefix}/home/about`,
+    name:     'about',
+    title:    'About us'
+  },
+  {
     route:    'profile',
     moduleId: `${modulePrefix}/account/profile`,
     name:     'profile',

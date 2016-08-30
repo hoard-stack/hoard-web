@@ -22,14 +22,9 @@ export class NavBar {
   }
 
   bind() {
-    // This assignment is placed in the bind callback so that the navigation
-    // links can be re-rendered after the login (that navigates back to
-    // the previous view).
     this.navigation = this.loadNavigation();
   }
 
-  // TODO: This should probably be moved to a separate route, but so far
-  //       I couldn't figure out how to make it work properly (with navbar refresh, etc.)
   logout() {
     this.authService.removeApiToken();
     history.go(0);

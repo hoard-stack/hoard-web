@@ -2,7 +2,7 @@ let AppConfig = {
   title: 'Hoard',
   apiUrl: 'http://localhost:666',
   apiTokenStorageKey: 'apiToken',
-  defaultLanguage: 'en',
+  defaultLanguage: 'en'
 }
 
 export default AppConfig;
