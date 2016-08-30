@@ -11,15 +11,20 @@ export default [
     route:    'about',
     moduleId: `${modulePrefix}/home/about`,
     name:     'about',
-    title:    'About us'
+    title:    'About us',
+    settings: {
+        hideNavbar:        true,
+        navHideAfterLogin: true
+    }
   },
   {
     route:    'profile',
     moduleId: `${modulePrefix}/account/profile`,
     name:     'profile',
     title:    'Profile',
-    nav:      true,
-    reqLogin: true
+    settings: {
+        reqLogin:        true
+    }
   },
   {
     route:             'register',
@@ -27,8 +32,10 @@ export default [
     name:              'register',
     title:             'Register',
     nav:               true,
-    navHideIfLoggedIn: true,
-    hideNavbar:        true
+    settings: {
+        hideNavbar:        true,
+        navHideAfterLogin: true
+    }
   },
   {
     route:             'login',
@@ -36,7 +43,9 @@ export default [
     name:              'login',
     title:             'Login',
     nav:               true,
-    navHideIfLoggedIn: true,
-    hideNavbar:        true
+    settings: {
+        hideNavbar:        true,
+        navHideAfterLogin: true
+    }
   }
 ]

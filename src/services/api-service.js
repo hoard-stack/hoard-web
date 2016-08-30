@@ -1,11 +1,11 @@
 import {inject} from 'aurelia-framework';
+import fetch from 'whatwg-fetch';
 import {HttpClient, json} from 'aurelia-fetch-client';
 import AuthService from './auth-service';
 import AppConfig from '../common/app-config'
-import fetch from 'whatwg-fetch';
 
 @inject(HttpClient, AuthService, AppConfig)
-export default class ApiBaseService {
+export default class ApiService {
   constructor(http, authService, appConfig) {
     this.http = http;
     this.http.configure(config => {
@@ -16,7 +16,7 @@ export default class ApiBaseService {
           headers: {
             'Content-Type':     'application/json',
             'Accept':           'application/json',
-            'X-Requested-With': 'Fetch',
+            'X-Requested-With': 'Fetch'
           }
         })
         .withInterceptor({

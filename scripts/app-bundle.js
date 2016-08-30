@@ -102,30 +102,39 @@ define('routes',['exports'], function (exports) {
     route: 'about',
     moduleId: modulePrefix + '/home/about',
     name: 'about',
-    title: 'About us'
+    title: 'About us',
+    settings: {
+      hideNavbar: true,
+      navHideAfterLogin: true
+    }
   }, {
     route: 'profile',
     moduleId: modulePrefix + '/account/profile',
     name: 'profile',
     title: 'Profile',
-    nav: true,
-    reqLogin: true
+    settings: {
+      reqLogin: true
+    }
   }, {
     route: 'register',
     moduleId: modulePrefix + '/account/register',
     name: 'register',
     title: 'Register',
     nav: true,
-    navHideIfLoggedIn: true,
-    hideNavbar: true
+    settings: {
+      hideNavbar: true,
+      navHideAfterLogin: true
+    }
   }, {
     route: 'login',
     moduleId: modulePrefix + '/account/login',
     name: 'login',
     title: 'Login',
     nav: true,
-    navHideIfLoggedIn: true,
-    hideNavbar: true
+    settings: {
+      hideNavbar: true,
+      navHideAfterLogin: true
+    }
   }];
 });
 define('common/app-config',['exports'], function (exports) {
@@ -229,7 +238,7 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('services/api-service',['exports', 'aurelia-framework', 'aurelia-fetch-client', './auth-service', '../common/app-config', 'whatwg-fetch'], function (exports, _aureliaFramework, _aureliaFetchClient, _authService, _appConfig, _whatwgFetch) {
+define('services/api-service',['exports', 'aurelia-framework', 'whatwg-fetch', 'aurelia-fetch-client', './auth-service', '../common/app-config'], function (exports, _aureliaFramework, _whatwgFetch, _aureliaFetchClient, _authService, _appConfig) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -237,11 +246,11 @@ define('services/api-service',['exports', 'aurelia-framework', 'aurelia-fetch-cl
   });
   exports.default = undefined;
 
+  var _whatwgFetch2 = _interopRequireDefault(_whatwgFetch);
+
   var _authService2 = _interopRequireDefault(_authService);
 
   var _appConfig2 = _interopRequireDefault(_appConfig);
-
-  var _whatwgFetch2 = _interopRequireDefault(_whatwgFetch);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -286,9 +295,9 @@ define('services/api-service',['exports', 'aurelia-framework', 'aurelia-fetch-cl
 
   var _dec, _class;
 
-  var ApiBaseService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient, _authService2.default, _appConfig2.default), _dec(_class = function () {
-    function ApiBaseService(http, authService, appConfig) {
-      _classCallCheck(this, ApiBaseService);
+  var ApiService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient, _authService2.default, _appConfig2.default), _dec(_class = function () {
+    function ApiService(http, authService, appConfig) {
+      _classCallCheck(this, ApiService);
 
       this.http = http;
       this.http.configure(function (config) {
@@ -306,7 +315,7 @@ define('services/api-service',['exports', 'aurelia-framework', 'aurelia-fetch-cl
       });
     }
 
-    ApiBaseService.prototype.get = function () {
+    ApiService.prototype.get = function () {
       var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(path) {
         var response;
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -335,7 +344,7 @@ define('services/api-service',['exports', 'aurelia-framework', 'aurelia-fetch-cl
       return get;
     }();
 
-    ApiBaseService.prototype.post = function () {
+    ApiService.prototype.post = function () {
       var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(path, params) {
         var responseObject;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -371,9 +380,9 @@ define('services/api-service',['exports', 'aurelia-framework', 'aurelia-fetch-cl
       return post;
     }();
 
-    return ApiBaseService;
+    return ApiService;
   }()) || _class);
-  exports.default = ApiBaseService;
+  exports.default = ApiService;
 });
 define('services/auth-service',['exports', 'aurelia-framework', '../common/app-config'], function (exports, _aureliaFramework, _appConfig) {
   'use strict';

@@ -1,6 +1,6 @@
 {
-  "name": "hoard",
-  "description": "An Aurelia client application.",
+  "name": "Hoard",
+  "description": "Hoard web application.",
   "version": "0.1.0",
   "repository": {
     "type": "???",
@@ -16,8 +16,10 @@
   "peerDependencies": {},
   "devDependencies": {
     "aurelia-cli": "^0.18.0",
+    "aurelia-fetch-client": "^1.0.0",
     "aurelia-testing": "^1.0.0-beta.2.0.0",
     "aurelia-tools": "^0.2.2",
+    "aurelia-validation": "^0.11.0",
     "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",
     "babel-eslint": "^6.0.4",
@@ -35,6 +37,7 @@
     "babel-register": "^6.9.0",
     "browser-sync": "^2.13.0",
     "connect-history-api-fallback": "^1.2.0",
+    "fetch": "^1.1.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-babel": "^6.1.2",
     "gulp-changed-in-place": "^2.0.3",
@@ -52,6 +55,7 @@
     "through2": "^2.0.1",
     "uglify-js": "^2.6.3",
     "vinyl-fs": "^2.4.3",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "whatwg-fetch": "^1.0.0"
   }
 }
