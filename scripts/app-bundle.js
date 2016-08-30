@@ -430,7 +430,7 @@ define('services/auth-service',['exports', 'aurelia-framework', '../common/app-c
 
     AuthService.prototype.authorizeRequest = function authorizeRequest(request) {
       if (this.apiToken && request.headers.append) {
-        request.headers.append('Authorization', 'Token ' + this.apiToken);
+        request.headers.append('Authorization', 'JWT ' + this.apiToken);
       }
       return request;
     };
@@ -474,6 +474,35 @@ define('features/account/login',['exports', 'aurelia-framework', 'aurelia-router
     };
   }
 
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              return step("next", value);
+            }, function (err) {
+              return step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -482,9 +511,57 @@ define('features/account/login',['exports', 'aurelia-framework', 'aurelia-router
 
   var _dec, _class;
 
-  var Login = exports.Login = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _apiService2.default, _authService2.default, _appConfig2.default), _dec(_class = function Login() {
-    _classCallCheck(this, Login);
-  }) || _class);
+  var Login = exports.Login = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router, _apiService2.default, _authService2.default, _appConfig2.default), _dec(_class = function () {
+    function Login(router, apiService, authService, appConfig) {
+      _classCallCheck(this, Login);
+
+      this.apiService = apiService;
+      this.defaultRedirectRoute = 'profile';
+      this.email = '';
+      this.password = '';
+    }
+
+    Login.prototype.submitLogin = function () {
+      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        var response;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.errorMessage = null;
+                _context.next = 3;
+                return this.apiService.post('login', {
+                  email: this.email,
+                  password: this.password
+                });
+
+              case 3:
+                response = _context.sent;
+
+                if (response.token) {
+                  this.authService.apiToken = response.token;
+                  this.router.navigateToRoute(this.defaultRedirectRoute);
+                } else {
+                  alert("Invalid credentials.");
+                }
+
+              case 5:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function submitLogin() {
+        return _ref.apply(this, arguments);
+      }
+
+      return submitLogin;
+    }();
+
+    return Login;
+  }()) || _class);
 });
 define('features/account/profile',["exports"], function (exports) {
   "use strict";
@@ -7389,7 +7466,7 @@ module.exports = _dereq_(23);
 define("node_modules/babel-polyfill/dist/polyfill.js", function(){});
 
 define('text!app.html', ['module'], function(module) { module.exports = "<template>\r\n  \t<header>\r\n\t  <nav class=\"white_transparent\" role=\"navigation\">\r\n\t    <div class=\"nav-wrapper container\">\r\n\t      <a id=\"logo-container\" href=\"#\" class=\"brand-logo\"></a>\r\n\t      <ul class=\"right hide-on-med-and-down\">\r\n\t        <li><a href=\"/\">Home</a></li>\r\n\t        <li><a href=\"/#about\">About us</a></li>\r\n\t        <li><a href=\"/#profile\">Profile</a></li>\r\n\t      </ul>\r\n\t      <ul id=\"nav-mobile\" class=\"side-nav\">\r\n\t        <li><a href=\"/\">Home</a></li>\r\n\t        <li><a href=\"/#about\">About us</a></li>\r\n\t        <li><a href=\"/#profile\">Profile</a></li>\r\n\t      </ul>\r\n\t      <a href=\"#\" data-activates=\"nav-mobile\" class=\"button-collapse\"><i class=\"material-icons\">menu</i></a>\r\n\t    </div>\r\n\t  </nav>\r\n\t</header>\r\n  <main>\r\n  <router-view></router-view>\r\n  </main>\r\n  <footer class=\"white_transparent\">\r\n    <div class=\"footer-copyright  center-align\">\r\n      <div class=\"container teal-text text-lighten-5\">\r\n      have a nice day!\r\n      </div>\r\n    </div>\r\n  </footer>\r\n</template>\r\n"; });
-define('text!features/account/login.html', ['module'], function(module) { module.exports = "<template>\r\n<div id=\"index-banner\" class=\"parallax-container\">\r\n  <div class=\"section no-pad-bot\">\r\n    <div class=\"container\">\r\n      <div class=\"row\">\r\n       <div class=\"col s4\">\r\n         <!-- Promo Content 1 goes here -->\r\n       </div>\r\n       <div class=\"col s4 center\">\r\n         <h1 class=\"header teal-text text-lighten-5\">Hoard</h1>\r\n         <h5 class=\"header col s12 light\">Login</h5>\r\n         <%if (message.length > 0) { %>\r\n          <div class=\"error\"><%= message %></div>\r\n          <% } %>\r\n         <form action=\"/login\" method=\"post\">\r\n           <input placeholder=\"Email\" type=\"text\" name=\"email\">\r\n           <input placeholder=\"Password\" type=\"password\" name=\"password\">\r\n           <button class=\"btn btn-warning brn-lg\" type=\"submit\">Login</button>\r\n         </form>\r\n         <p class=\"under-form\">Need an account? <a href=\"/#register\">Register</a></p>\r\n         <p class=\"under-form\">Or go <a href=\"/\">home</a></p>\r\n       </div>\r\n       <div class=\"col s4\">\r\n         <!-- Promo Content 3 goes here -->\r\n       </div>\r\n     </div>\r\n</div>\r\n</div>\r\n  <div class=\"parallax\"><div class=\"stars\"></div>\r\n  <div class=\"twinkling\"></div></div>\r\n</div>\r\n</template>\r\n"; });
+define('text!features/account/login.html', ['module'], function(module) { module.exports = "<template>\r\n<div id=\"index-banner\" class=\"parallax-container\">\r\n  <div class=\"section no-pad-bot\">\r\n    <div class=\"container\">\r\n      <div class=\"row\">\r\n       <div class=\"col s4\">\r\n         <!-- Promo Content 1 goes here -->\r\n       </div>\r\n       <div class=\"col s4 center\">\r\n         <h1 class=\"header teal-text text-lighten-5\">Hoard</h1>\r\n         <h5 class=\"header col s12 light\">Login</h5>\r\n        <div if.bind=\"errorMessage\">\r\n          ${errorMessage}.\r\n        </div>\r\n         <form validate.bind=\"validation\" submit.delegate=\"submitLogin()\">\r\n           <input placeholder=\"Email\" type=\"email\" name=\"email\" class=\"validate\" value.bind=\"email\" required>\r\n           <input placeholder=\"Password\" type=\"password\" name=\"password\" class=\"validate\" value.bind=\"password\" required>\r\n           <button class=\"btn btn-warning brn-lg\" type=\"submit\">Login</button>\r\n         </form>\r\n         <p class=\"under-form\">Need an account? <a href=\"/#register\">Register</a></p>\r\n         <p class=\"under-form\">Or go <a href=\"/\">home</a></p>\r\n       </div>\r\n       <div class=\"col s4\">\r\n         <!-- Promo Content 3 goes here -->\r\n       </div>\r\n     </div>\r\n</div>\r\n</div>\r\n  <div class=\"parallax\"><div class=\"stars\"></div>\r\n  <div class=\"twinkling\"></div></div>\r\n</div>\r\n</template>\r\n"; });
 define('text!features/account/profile.html', ['module'], function(module) { module.exports = "<template>\r\n  <div id=\"index-banner\" class=\"parallax-container\">\r\n    <div class=\"section profile\">\r\n      <div class=\"container\">\r\n         <h3 class=\"center header col s12 light\">\r\n        <%if (user.local.name && user.local.name.length > 0) { %>\r\n         Hi <%= user.local.name %>\r\n          <% } else if (user.local.email.length > 0)  { %>\r\n            Hi <%= user.local.email %>\r\n          <% } else { %>\r\n              Hi!\r\n          <% } %>\r\n        </h3>\r\n            <div class=\"row\">\r\n\r\n              <div class=\"col s4 center\">\r\n                <i class=\"material-icons circle folder\">folder</i>\r\n              </div>\r\n              <div class=\"col s4 center\">\r\n                <i class=\"material-icons circle folder\">folder</i>\r\n              </div>\r\n              <div class=\"col s4 center\">\r\n                <i class=\"material-icons circle folder\">folder</i>\r\n              </div>\r\n            </div>\r\n            <h3 class=\"center header col s12 light\">Links floating in space</h3>\r\n            <div class=\"row\">\r\n              <div class=\"col s3 \"></div>\r\n              <div class=\"col s6 \">\r\n                <ul class=\"collection\">\r\n                  <li class=\"collection-item avatar\">\r\n                    <i class=\"material-icons circle\">mode_edit</i>\r\n                    <span class=\"title\">www.youtube.com/g77jKAjhash8</span>\r\n                    <p>Piotr Gankiewicz</p>\r\n                    <a href=\"#!\" class=\"secondary-content\"><i class=\"material-icons\">grade</i></a>\r\n                  </li>\r\n\r\n                </ul>\r\n              </div>\r\n              <div class=\"col s3 \"></div>\r\n            </div>\r\n      </div>\r\n</div>\r\n<div class=\"parallax\"><div class=\"stars\"></div>\r\n<div class=\"twinkling\"></div></div>\r\n</div>\r\n<div class=\"observatory\">\r\n  <img src=\"/content/img/observatory.png\" class=\"obs\">\r\n</div>\r\n</template>\r\n"; });
 define('text!features/account/register.html', ['module'], function(module) { module.exports = "<template>\r\n<div id=\"index-banner\" class=\"parallax-container\">\r\n<div class=\"section no-pad-bot\">\r\n  <div class=\"container\">\r\n    <div class=\"row\">\r\n     <div class=\"col s4\">\r\n       <!-- Promo Content 1 goes here -->\r\n     </div>\r\n     <div class=\"col s4 center\">\r\n       <h1 class=\"header teal-text text-lighten-5\">Hoard </h1>\r\n       <h5 class=\"header col s12 light\">Register</h5>\r\n       <%if (message.length > 0) { %>\r\n        <div class=\"error\"><%= message %></div>\r\n        <% } %>\r\n       <form action=\"/register\" method=\"post\">\r\n         <input placeholder=\"Email\" type=\"text\" name=\"email\">\r\n         <input placeholder=\"Password\" type=\"password\" name=\"password\">\r\n         <button class=\"btn btn-warning brn-lg\" type=\"submit\">Register</button>\r\n       </form>\r\n       <p class=\"under-form\">Already have an account? <a href=\"/#login\">Log in</a></p>\r\n       <p class=\"under-form\">Or go <a href=\"/\">home</a></p>\r\n     </div>\r\n     <div class=\"col s4\">\r\n       <!-- Promo Content 3 goes here -->\r\n     </div>\r\n   </div>\r\n</div>\r\n</div>\r\n<div class=\"parallax\"><div class=\"stars\"></div>\r\n<div class=\"twinkling\"></div></div>\r\n</div>\r\n</template>\r\n"; });
 define('text!features/home/about.html', ['module'], function(module) { module.exports = "<template>\r\n  <div>\r\n  </div>\r\n</template>\r\n"; });

@@ -9,12 +9,12 @@
        <div class="col s4 center">
          <h1 class="header teal-text text-lighten-5">Hoard</h1>
          <h5 class="header col s12 light">Login</h5>
-         <%if (message.length > 0) { %>
-          <div class="error"><%= message %></div>
-          <% } %>
-         <form action="/login" method="post">
-           <input placeholder="Email" type="text" name="email">
-           <input placeholder="Password" type="password" name="password">
+        <div if.bind="errorMessage">
+          ${errorMessage}.
+        </div>
+         <form validate.bind="validation" submit.delegate="submitLogin()">
+           <input placeholder="Email" type="email" name="email" class="validate" value.bind="email" required>
+           <input placeholder="Password" type="password" name="password" class="validate" value.bind="password" required>
            <button class="btn btn-warning brn-lg" type="submit">Login</button>
          </form>
          <p class="under-form">Need an account? <a href="/#register">Register</a></p>

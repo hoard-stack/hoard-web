@@ -29,6 +29,7 @@ export default class ApiBaseService {
 
   async get(path) {
     let response = await this.http.fetch(path);
+    
     return response.json();
   }
 
@@ -40,6 +41,7 @@ export default class ApiBaseService {
       })
       .then(response => responseObject = response.json())
       .catch(error => responseObject = error.json());
+
     return responseObject;
   }
 }

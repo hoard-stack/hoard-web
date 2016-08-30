@@ -25,7 +25,7 @@ export default class AuthService {
 
   authorizeRequest(request) {
     if (this.apiToken && request.headers.append) {
-      request.headers.append('Authorization', `Token ${this.apiToken}`);
+      request.headers.append('Authorization', `JWT ${this.apiToken}`);
     }
     return request;
   }
